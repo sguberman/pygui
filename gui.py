@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import scrolledtext
+from tkinter import Menu
 
 
 win = tk.Tk()
@@ -92,6 +93,27 @@ ttk.Label(labelsFrame, text='Label3').grid(column=0, row=2)
 
 for child in labelsFrame.winfo_children():
     child.grid_configure(padx=8, pady=4)
+
+def _quit():
+    win.quit()
+    win.destroy()
+    exit()
+
+# Add a menu bar to the window
+menuBar = Menu(win)
+win.config(menu=menuBar)
+
+# File menu
+fileMenu = Menu(menuBar, tearoff=0)
+fileMenu.add_command(label='New')
+fileMenu.add_separator()
+fileMenu.add_command(label='Exit', command=_quit)
+menuBar.add_cascade(label='File', menu=fileMenu)
+
+# Help menu
+helpMenu = Menu(menuBar, tearoff=0)
+helpMenu.add_command(label='About')
+menuBar.add_cascade(label='Help', menu=helpMenu)
 
 win.mainloop()
 
