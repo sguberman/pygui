@@ -71,7 +71,7 @@ for i, color in enumerate(colors):
 scrolW = 30
 scrolH = 3
 scr = scrolledtext.ScrolledText(win, width=scrolW, height=scrolH, wrap=tk.WORD)
-scr.grid(column=0, columnspan=3)
+scr.grid(column=0, columnspan=3, sticky='WE')
 
 # Create a container to hold labels
 labelsFrame = ttk.LabelFrame(win, text=' Labels in a Frame ')
