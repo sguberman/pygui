@@ -7,11 +7,21 @@ from tkinter import Menu
 win = tk.Tk()
 win.title('Python GUI')
 
+# Add tab controls
+tabControl = ttk.Notebook(win)
+tab1 = ttk.Frame(tabControl)
+tabControl.add(tab1, text='Tab 1')
+tab2 = ttk.Frame(tabControl)
+tabControl.add(tab2, text='Tab 2')
+tabControl.pack(expand=1, fill='both')
+
 #win.resizable(0, 0)
 
-# Create a container frame
-monty = ttk.LabelFrame(win, text=' Monty Python ')
-monty.grid(column=0, row=0)
+# Create a container frame for each tab
+monty = ttk.LabelFrame(tab1, text=' Monty Python ')
+monty.grid(column=0, row=0, padx=8, pady=4)
+monty2 = ttk.LabelFrame(tab2, text=' The Snake ')
+monty2.grid(column=0, row=0, padx=8, pady=4)
 
 # Modify button click function
 def clickMe():
@@ -41,19 +51,19 @@ numberChosen.current(0)
 # Add three checkboxes
 chVarDis = tk.IntVar()
 check1 = tk.Checkbutton(
-    monty, text='Disabled', variable=chVarDis, state='disabled')
+    monty2, text='Disabled', variable=chVarDis, state='disabled')
 check1.select()
 check1.grid(column=0, row=4, sticky=tk.W)
 
 chVarUn = tk.IntVar()
 check2 = tk.Checkbutton(
-    monty, text='Unchecked', variable=chVarUn)
+    monty2, text='Unchecked', variable=chVarUn)
 check2.deselect()
 check2.grid(column=1, row=4, sticky=tk.W)
 
 chVarEn = tk.IntVar()
 check3 = tk.Checkbutton(
-    monty, text='Enabled', variable=chVarEn)
+    monty2, text='Enabled', variable=chVarEn)
 check3.select()
 check3.grid(column=2, row=4, sticky=tk.W)
 
@@ -66,14 +76,14 @@ colors = [COLOR1, COLOR2, COLOR3]
 # Radiobutton callback
 def radCall():
     radSel = radVar.get()
-    win.configure(background=radSel)
+    monty2.configure(text=radSel)
 
 # Add three radio buttons in a loop
 radVar = tk.StringVar()
 radVar.set('None')
 for i, color in enumerate(colors):
     rad = tk.Radiobutton(
-        monty, text=color, variable=radVar, value=color, command=radCall)
+        monty2, text=color, variable=radVar, value=color, command=radCall)
     rad.grid(column=i, row=6, sticky=tk.W)
 
 # Using a scrolled text control
@@ -83,7 +93,7 @@ scr = scrolledtext.ScrolledText(monty, width=scrolW, height=scrolH, wrap=tk.WORD
 scr.grid(column=0, row=5, columnspan=3, sticky='WE')
 
 # Create a container to hold labels
-labelsFrame = ttk.LabelFrame(monty, text=' Labels in a Frame ')
+labelsFrame = ttk.LabelFrame(monty2, text=' Labels in a Frame ')
 labelsFrame.grid(column=0, row=7, padx=5, pady=5)
 
 # Place labels into the container element
