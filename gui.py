@@ -56,6 +56,9 @@ tab1 = ttk.Frame(tabControl)
 tabControl.add(tab1, text='Tab 1')
 tab2 = ttk.Frame(tabControl)
 tabControl.add(tab2, text='Tab 2')
+# Add a third tab for the canvas widget
+tab3 = ttk.Frame(tabControl)
+tabControl.add(tab3, text='Tab 3')
 tabControl.pack(expand=1, fill='both')
 
 #win.resizable(0, 0)
@@ -161,6 +164,15 @@ ttk.Label(labelsFrame, text='Label3').grid(column=0, row=2)
 for child in labelsFrame.winfo_children():
     child.grid_configure(padx=8, pady=4)
 
+# Tab 3 Canvas
+tabframe = tk.Frame(tab3, bg='blue')
+tabframe.pack()
+for n in range(2):
+    canvas = tk.Canvas(tabframe, width=150, height=80,
+        highlightthickness=0, bg='orange')
+    canvas.grid(row=n, column=n)
+
+# File->Exit callback
 def _quit():
     win.quit()
     win.destroy()
