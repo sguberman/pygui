@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter import Menu
+from tkinter import messagebox as mbox
 
 
 win = tk.Tk()
@@ -120,9 +121,14 @@ fileMenu.add_separator()
 fileMenu.add_command(label='Exit', command=_quit)
 menuBar.add_cascade(label='File', menu=fileMenu)
 
+# Message box callback function
+def _msgBox():
+    mbox.showinfo('Python Message Info Box',
+        'A Pyton GUI created using tkinter:\nThe year is 2016.')
+
 # Help menu
 helpMenu = Menu(menuBar, tearoff=0)
-helpMenu.add_command(label='About')
+helpMenu.add_command(label='About', command=_msgBox)
 menuBar.add_cascade(label='Help', menu=helpMenu)
 
 win.mainloop()
