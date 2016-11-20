@@ -5,6 +5,48 @@ from tkinter import Menu
 from tkinter import messagebox as mbox
 
 
+class ToolTip:
+    def __init__(self, widget):
+        self.widget = widget
+        self.tipwindow = None
+        self.id = None
+        self.x = self.y = 0
+
+    def showtip(self, text):
+        """
+        Display text in a tooltip window.
+        """
+        self.text = text
+        if self.tipwindow or not self.text:
+            return
+        x, y, _cx, cy = self.widget.bbox('insert')
+        x = x + self.widget.winfo_rootx() + 27
+        y = y + cy + self.widget.winfo_rooty() + 27
+        self.tipwindow = tw = tk.Toplevel(self.widget)
+        tw.wm_overrideredirect(1)
+        tw.wm_geometry('+%d+%d' % (x, y))
+        label = tk.Label(tw, text=self.text, justify=tk.LEFT,
+            background='#ffffe0', relief=tk.SOLID, borderwidth=1,
+            font=('tahoma', '8', 'normal'))
+        label.pack(ipadx=1)
+
+    def hidetip(self):
+        tw = self.tipwindow
+        self.tipwindow = None
+        if tw:
+            tw.destroy()
+
+
+def createToolTip(widget, text):
+    tooltip = ToolTip(widget)
+    def enter(event):
+        tooltip.showtip(text)
+    def leave(event):
+        tooltip.hidetip()
+    widget.bind('<Enter>', enter)
+    widget.bind('<Leave>', leave)
+
+
 win = tk.Tk()
 win.title('Python GUI')
 
@@ -96,12 +138,16 @@ def _spin():
 # Add a spinbox widget
 spin = tk.Spinbox(monty, values=(1, 2, 4, 42, 100), width=5, bd=8, command=_spin)
 spin.grid(column=0, row=2)
+# Add a tooltip
+createToolTip(spin, 'This is a spin control.')
 
 # Using a scrolled text control
 scrolW = 30
 scrolH = 3
 scr = scrolledtext.ScrolledText(monty, width=scrolW, height=scrolH, wrap=tk.WORD)
 scr.grid(column=0, row=5, columnspan=3, sticky='WE')
+# Add a tooltip
+createToolTip(scr, 'This is a scrolled text widget.')
 
 # Create a container to hold labels
 labelsFrame = ttk.LabelFrame(monty2, text=' Labels in a Frame ')
