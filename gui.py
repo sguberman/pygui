@@ -54,32 +54,48 @@ class OOP:
         self.win = tk.Tk()
         self.win.title('Python GUI')
         self.createWidgets()
-    
-    
+
+
     def createWidgets(self):
+        self.createTabs()
+        self.createContainers()
+        self.tab1widgets()
+        self.tab2widgets()
+        self.tab3widgets()
+        self.createMenus()
+
+
+    def createTabs(self):
         # Add tab controls
         tabControl = ttk.Notebook(self.win)
-        tab1 = ttk.Frame(tabControl)
-        tabControl.add(tab1, text='Tab 1')
-        tab2 = ttk.Frame(tabControl)
-        tabControl.add(tab2, text='Tab 2')
-        # Add a third tab for the canvas widget
-        tab3 = ttk.Frame(tabControl)
-        tabControl.add(tab3, text='Tab 3')
+        self.tab1 = ttk.Frame(tabControl)
+        tabControl.add(self.tab1, text='Tab 1')
+        self.tab2 = ttk.Frame(tabControl)
+        tabControl.add(self.tab2, text='Tab 2')
+        self.tab3 = ttk.Frame(tabControl)
+        tabControl.add(self.tab3, text='Tab 3')
         tabControl.pack(expand=1, fill='both')
 
-        # Create a container frame for each tab
-        self.monty = ttk.LabelFrame(tab1, text=' Monty Python ')
-        self.monty.grid(column=0, row=0, padx=8, pady=4)
-        self.monty2 = ttk.LabelFrame(tab2, text=' The Snake ')
-        self.monty2.grid(column=0, row=0, padx=8, pady=4)
 
-        # Create a button
-        self.action = ttk.Button(self.monty, text='Click Me!', command=self.clickMe)
+    def createContainers(self):
+        # Create a container frame for each tab
+        self.monty = ttk.LabelFrame(self.tab1, text=' Monty Python ')
+        self.monty.grid(column=0, row=0, padx=8, pady=4)
+        self.monty2 = ttk.LabelFrame(self.tab2, text=' The Snake ')
+        self.monty2.grid(column=0, row=0, padx=8, pady=4)
+        self.monty3 = tk.Frame(self.tab3, bg='blue')
+        self.monty3.pack()
+
+    
+    def tab1widgets(self):
+        # Add a button
+        self.action = ttk.Button(
+            self.monty, text='Click Me!', command=self.clickMe)
         self.action.grid(column=2, row=1)
 
-        # Change the label
-        ttk.Label(self.monty, text='Enter a name:').grid(column=0, row=0, sticky='W')
+        # Add a label
+        ttk.Label(
+            self.monty, text='Enter a name:').grid(column=0, row=0, sticky='W')
 
         # Add a textbox entry widget
         self.name = tk.StringVar()
@@ -96,10 +112,30 @@ class OOP:
         numberChosen.grid(column=1, row=1)
         numberChosen.current(0)
 
+        # Add a spinbox widget
+        self.spin = tk.Spinbox(
+            self.monty, values=(1, 2, 4, 42, 100), width=5, bd=8,
+            command=self._spin)
+        self.spin.grid(column=0, row=2)
+        # Add a tooltip
+        createToolTip(self.spin, 'This is a spin control.')
+
+        # Using a scrolled text control
+        scrolW = 30
+        scrolH = 3
+        self.scr = scrolledtext.ScrolledText(
+            self.monty, width=scrolW, height=scrolH, wrap=tk.WORD)
+        self.scr.grid(column=0, row=5, columnspan=3, sticky='WE')
+        # Add a tooltip
+        createToolTip(self.scr, 'This is a scrolled text widget.')
+
+
+    def tab2widgets(self):
         # Add three checkboxes
         self.chVarDis = tk.IntVar()
         check1 = tk.Checkbutton(
-            self.monty2, text='Disabled', variable=self.chVarDis, state='disabled')
+            self.monty2, text='Disabled', variable=self.chVarDis,
+            state='disabled')
         check1.select()
         check1.grid(column=0, row=4, sticky=tk.W)
 
@@ -126,22 +162,9 @@ class OOP:
         self.radVar.set('None')
         for i, color in enumerate(self.colors):
             rad = tk.Radiobutton(
-                self.monty2, text=color, variable=self.radVar, value=color, command=self.radCall)
+                self.monty2, text=color, variable=self.radVar, value=color,
+                command=self.radCall)
             rad.grid(column=i, row=6, sticky=tk.W)
-
-        # Add a spinbox widget
-        self.spin = tk.Spinbox(self.monty, values=(1, 2, 4, 42, 100), width=5, bd=8, command=self._spin)
-        self.spin.grid(column=0, row=2)
-        # Add a tooltip
-        createToolTip(self.spin, 'This is a spin control.')
-
-        # Using a scrolled text control
-        scrolW = 30
-        scrolH = 3
-        self.scr = scrolledtext.ScrolledText(self.monty, width=scrolW, height=scrolH, wrap=tk.WORD)
-        self.scr.grid(column=0, row=5, columnspan=3, sticky='WE')
-        # Add a tooltip
-        createToolTip(self.scr, 'This is a scrolled text widget.')
 
         # Create a container to hold labels
         labelsFrame = ttk.LabelFrame(self.monty2, text=' Labels in a Frame ')
@@ -155,14 +178,15 @@ class OOP:
         for child in labelsFrame.winfo_children():
             child.grid_configure(padx=8, pady=4)
 
-        # Tab 3 Canvas
-        tabframe = tk.Frame(tab3, bg='blue')
-        tabframe.pack()
+
+    def tab3widgets(self):
         for n in range(2):
-            canvas = tk.Canvas(tabframe, width=150, height=80,
+            canvas = tk.Canvas(self.monty3, width=150, height=80,
                 highlightthickness=0, bg='orange')
             canvas.grid(row=n, column=n)
 
+    
+    def createMenus(self):
         # Add a menu bar to the window
         menuBar = Menu(self.win)
         self.win.config(menu=menuBar)
@@ -180,7 +204,7 @@ class OOP:
         menuBar.add_cascade(label='Help', menu=helpMenu)
 
 
-    # Message box callback function
+    # Message box callback
     def msgBox(self):
         mbox.showinfo('Python Message Info Box',
             'A Pyton GUI created using tkinter:\nThe year is 2016.')
@@ -206,9 +230,10 @@ class OOP:
         self.monty2.configure(text=radSel)
     
     
-    # Modify button click function
+    # Button click callback
     def clickMe(self):
-        self.action.configure(text='Hello ' + self.name.get() + ' ' + self.number.get())
+        self.action.configure(
+            text='Hello ' + self.name.get() + ' ' + self.number.get())
 
 
 if __name__ == '__main__':
