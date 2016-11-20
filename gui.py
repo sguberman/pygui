@@ -87,6 +87,16 @@ for i, color in enumerate(colors):
         monty2, text=color, variable=radVar, value=color, command=radCall)
     rad.grid(column=i, row=6, sticky=tk.W)
 
+# Spinbox callback
+def _spin():
+    value = spin.get()
+    print(value)
+    scr.insert(tk.INSERT, value + '\n')
+
+# Add a spinbox widget
+spin = tk.Spinbox(monty, values=(1, 2, 4, 42, 100), width=5, bd=8, command=_spin)
+spin.grid(column=0, row=2)
+
 # Using a scrolled text control
 scrolW = 30
 scrolH = 3
