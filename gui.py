@@ -50,6 +50,8 @@ class OOP:
         self.action = ttk.Button(
             self.monty, text='Click Me!', command=self.clickMe)
         self.action.grid(column=2, row=1)
+        # Add a tooltip
+        tt.createToolTip(self.action, 'This is a button control.')
 
         # Add a label
         ttk.Label(
@@ -60,6 +62,8 @@ class OOP:
         nameEntered = ttk.Entry(self.monty, width=12, textvariable=self.name)
         nameEntered.grid(column=0, row=1, sticky='W')
         nameEntered.focus()
+        # Add a tooltip
+        tt.createToolTip(nameEntered, 'This is an entry control.')
 
         # Add a combobox widget
         ttk.Label(self.monty, text='Choose a number:').grid(column=1, row=0)
@@ -123,6 +127,8 @@ class OOP:
                 self.monty2, text=color, variable=self.radVar, value=color,
                 command=self.radCall)
             rad.grid(column=i, row=6, sticky=tk.W)
+            # Add a tooltip
+            tt.createToolTip(rad, 'This is a radiobutton control.')
 
         # Create a container to hold labels
         labelsFrame = ttk.LabelFrame(self.monty2, text=' Labels in a Frame ')
